@@ -4,7 +4,5 @@ local serve = require("lib/middleware/static")
 local hmr = require("lib/middleware/hmr")
 local app = require("lib/app").new()
 
-app:use("*", hmr())
-app:use("*", logger())
-app:get("*", serve({ root = "public" }))
+app:use("*", hmr(), logger(), serve({ root = "public" }))
 server.new(app):start()

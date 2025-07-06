@@ -1,5 +1,6 @@
 local HTTP404 = require("lib.http-exception.not-found")
 local HTTP405 = require("lib.http-exception.method-not-allowed")
+local inspect = require("inspect")
 
 local function is_response(obj)
     local mt = getmetatable(obj)
@@ -24,8 +25,8 @@ local function compose(mws, ctx, match)
     local function dispatch(i)
         if i > #hs then
             -- all mw executed
-            -- no response set
             if not ctx._finalized and match then
+                -- no response set
                 HTTP405(ctx)
                 ctx._finalized = true
             else
@@ -62,8 +63,11 @@ local function compose(mws, ctx, match)
 
     dispatch(1)
 
+    print(inspect(mws))
     if executed_counter < #hs then
         print("\27[38;5;208m[WARN]\27[0m : Did you forget to call next() in a middleware ?")
+    elseif executed_counter > #hs then
+        print("\27[38;5;208m[WARN]\27[0m : Did you call next() multiple times ?")
     end
     if not ctx._finalized then
         print("\27[38;5;208m[WARN]\27[0m : Context is not finalized ?")

@@ -110,6 +110,7 @@ function Context:notFound()
     self.res:setContentType("text/plain")
     self.res:setStatus(404)
     self.res:setBody("404 Not Found")
+    self:header("X-Not-Found", self.req.url)
     return self.res
 end
 

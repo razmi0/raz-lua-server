@@ -4,6 +4,7 @@
 ---@field _queries table<string, string> The queries of the request
 ---@field _params table<string, string> The parameters of the request
 ---@field method string The method of the request
+---@field url string The extracted url
 ---@field path string The path of the request
 ---@field protocol string The protocol of the request
 ---@field body string The body of the request
@@ -25,6 +26,7 @@ local default_request = {
     _queries = {},
     _params = {},
     method = nil,
+    url = nil,
     path = nil,
     protocol = nil,
     body = "",
@@ -75,7 +77,7 @@ function Request:param(key)
     return self._params[key]
 end
 
---- Unfinished
+--- Unfinished and unused
 --- Parse the request body according to the specified content type
 function Request:parseBody(type)
     local bodyType = {
@@ -120,10 +122,13 @@ local function extractPathParts(self)
     for key, value in query_string:gmatch("([^=]+)=([^&]+)&?") do
         queryTable[key] = value
     end
+
     self.method = method
+    self.url = url
     self.path = path
     self.protocol = protocol
     self._queries = queryTable
+
     return "true"
 end
 

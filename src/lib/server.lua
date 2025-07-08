@@ -34,10 +34,10 @@ local function main(server, app)
         -- Blocking I/O: The program waits until the operation completes.
         local client, err = server:accept()
         -- Timeouts: Prevents the program from hanging indefinitely by limiting how long an I/O operation can wait.
-        client:settimeout(5)
         if not client then
             goto continue
         end
+        client:settimeout(5)
         -- Run the app
         app:_run(client)
         close(client)

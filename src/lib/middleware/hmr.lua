@@ -22,7 +22,7 @@ local hmr = function()
             c.res:setBody(
                 injected
                 ..
-                "\nhmrClient(import.meta);\n"
+                "\nhmrClient(import.meta);\n\n"
                 ..
                 content
             )

@@ -1,1 +1,3 @@
-console.log("Hello, world!");
+import { mount } from "./app.js";
+
+mount();

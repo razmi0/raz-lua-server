@@ -6,7 +6,6 @@ class HotModule {
     }
 
     accept(cb) {
-        console.log("accept " + this.file);
         this.cb = cb;
     }
 

@@ -1,4 +1,4 @@
-local _getInjected = function()
+local injected = (function()
     local path = debug.getinfo(1, "S").source:sub(2)
     local dir = path:match("(.*[/\\])") or ""
     local file = io.open(dir .. "_hmr-injected.js", "r")
@@ -6,10 +6,11 @@ local _getInjected = function()
         print("[ERROR]: hmr middleware could not find dev injected client file")
         return
     end
-    local injected = file:read("*a")
+    local inj = file:read("*a")
     file:close()
-    return injected
-end
+    return inj
+end)()
+
 
 ---@return fun(c : Context, next : fun())
 local hmr = function()
@@ -18,9 +19,10 @@ local hmr = function()
         next()
         if c.res:header("Content-Type") == "application/javascript" and c.res.status == 200 then
             local content = c.res.body
-            local injected = _getInjected()
             c.res:setBody(
                 injected
+                ..
+                "\nhmrClient(import.meta);\n"
                 ..
                 content
             )

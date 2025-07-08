@@ -51,6 +51,7 @@ local default_response = {
         ["X-Powered-By"] = "Raz",
         ["Date"] = os.date("%a, %d %b %Y %H:%M:%S GMT"),
         ["Last-Modified"] = os.date("%a, %d %b %Y %H:%M:%S GMT"),
+        ["Connection"] = "close"
     }
 }
 

@@ -228,6 +228,18 @@ function Trie:search(method, path)
         return a.order > b.order
     end)
 
+    -- prevent duplication
+    local seen = {}
+    local unique = {}
+    for _, mw in ipairs(sorted) do
+        if not seen[mw] then
+            table.insert(unique, mw)
+            seen[mw] = true
+        end
+    end
+
+    sorted = unique
+
     return sorted, sorted[#sorted] and sorted[#sorted].params or {}, fullMatch
 end
 
